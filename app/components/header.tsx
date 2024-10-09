@@ -1,45 +1,47 @@
 "use client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
-import { ShoppingBasketIcon, UserIcon } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import SignInButton from "./signIn-button";
+import { BellIcon } from "lucide-react";
 
-export default function Header() {
-  const { data } = useSession();
-  const handleLogInClick = () => signIn("google");
+const Header = () => {
+  const { data: session } = useSession();
   const handleSignOutClick = () => signOut();
 
-  return (
-    <header className="flex items-center justify-between px-5 pt-5">
-      <h1 className="bangers text-2xl">The Burger Lab</h1>
+  if (!session) {
+    return (
+      <div className="space-y-2.5">
+        <SignInButton />
+        <p className="text-lg font-bold">
+          Faça login <br /> para realizar seu{" "}
+          <span className="text-background">pedido</span>!
+        </p>
+      </div>
+    );
+  }
 
-      {data?.user ? (
-        <div className="flex items-center gap-2.5">
-          <button
-            onClick={handleSignOutClick}
-            className="h-10 w-10 overflow-hidden rounded-full"
-          >
-            <Image
-              src={data.user.image ?? ""}
-              alt={data.user.name ?? ""}
-              height={1024}
-              width={1024}
-              className="w-full"
-            />
-          </button>
-          <span className="text-2xl">|</span>
-          <button className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
-            <ShoppingBasketIcon size={20} />
-          </button>
-        </div>
-      ) : (
-        <button
-          onClick={handleLogInClick}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white"
-        >
-          <UserIcon size={20} />
+  return (
+    <div className="space-y-2.5">
+      <div className="flex items-start justify-between">
+        <Image
+          src={session?.user?.image ?? ""}
+          alt={session?.user?.name ?? ""}
+          height={1024}
+          width={1024}
+          onClick={handleSignOutClick}
+          className="h-14 w-14 rounded-full shadow"
+        />
+        <button>
+          <BellIcon size={20} />
         </button>
-      )}
-    </header>
+      </div>
+      <p className="text-lg font-bold">
+        Explore, <br /> desfrute do{" "}
+        <span className="text-background">melhor sabor</span>!
+      </p>
+    </div>
   );
-}
+};
+
+export default Header;

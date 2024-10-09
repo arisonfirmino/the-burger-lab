@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Header from "../components/header";
 import { db } from "../lib/prisma";
-import ItemList from "../components/product-list";
+import Header from "../components/header";
+import Search from "../components/search";
+import ProductList from "../components/product-list";
 
 const fetch = async () => {
   const getBurgers = await db.burger.findMany();
@@ -22,29 +22,29 @@ const fetch = async () => {
   return { burgers, appetizers, drinks, desserts };
 };
 
-export default async function Home() {
+const Home = async () => {
   const { burgers, appetizers, drinks, desserts } = await fetch();
 
   return (
     <>
-      <Header />
-
       <div className="px-5 pt-5">
-        <Image
-          src="/"
-          alt="Banner"
-          height={420}
-          width={1024}
-          className="rounded-3xl bg-black"
-        />
+        <Header />
       </div>
 
-      <ItemList
-        burgers={burgers}
-        appetizers={appetizers}
-        drinks={drinks}
-        desserts={desserts}
-      />
+      <div className="px-5 pt-7">
+        <Search />
+      </div>
+
+      <div className="pb-36 pt-5">
+        <ProductList
+          burgers={burgers}
+          appetizers={appetizers}
+          drinks={drinks}
+          desserts={desserts}
+        />
+      </div>
     </>
   );
-}
+};
+
+export default Home;

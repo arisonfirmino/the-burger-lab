@@ -6,7 +6,8 @@
 @tailwind utilities;
 
 :root {
-  --container: #e5e5e5;
+  --container: #f5f5f5;
+  --background: #9e090f;
 }
 
 .bangers {

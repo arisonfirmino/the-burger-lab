@@ -1,47 +1,45 @@
-import Image from "next/image";
+import { HeartIcon, HomeIcon, ShoppingCartIcon, UserIcon } from "lucide-react";
+import Link from "next/link";
 
-interface NavProps {
-  onClickCategory: (category: string) => void;
-}
-
-export default function Nav({ onClickCategory }: NavProps) {
+const Nav = () => {
   const nav_items = [
     {
-      title: "Lanches",
-      icon: "https://utfs.io/f/8ec139d7-f177-4a36-80bf-9195c22e8be2-7jwus1.png",
+      page: "Home",
+      icon: <HomeIcon size={24} />,
+      href: "/",
     },
     {
-      title: "Porções",
-      icon: "https://utfs.io/f/a7e06a72-2145-4dac-93d6-581e945f8f24-lx387c.png",
+      page: "Favorites",
+      icon: <HeartIcon size={24} />,
+      href: "/favorites",
     },
     {
-      title: "Sobremesas",
-      icon: "https://utfs.io/f/3f4047a8-ede1-46a7-b2cd-9abda1943d95-ti4xxc.png",
+      page: "FoodCart",
+      icon: <ShoppingCartIcon size={24} />,
+      href: "/food-cart",
     },
     {
-      title: "Bebidas",
-      icon: "https://utfs.io/f/6bc5e5fd-bbc2-4a96-88ed-dc41ab12b239-yrjg4y.png",
+      page: "Profile",
+      icon: <UserIcon size={24} />,
+      href: "/profile",
     },
   ];
 
   return (
-    <nav className="flex justify-center gap-5 rounded-3xl bg-white shadow-md">
-      {nav_items.map((item) => (
-        <button
-          key={item.title}
-          onClick={() => onClickCategory(item.title)}
-          className="flex h-20 w-20 flex-col items-center justify-center gap-1"
-        >
-          <Image
-            src={item.icon}
-            alt={item.title}
-            height={512}
-            width={512}
-            className="h-7 w-7"
-          />
-          <span className="bangers text-sm">{item.title}</span>
-        </button>
-      ))}
+    <nav className="fixed bottom-10 left-1/2 z-10 w-full -translate-x-1/2 transform px-10">
+      <div className="bg-background flex justify-between rounded-full p-2.5 text-white shadow-md">
+        {nav_items.map((item) => (
+          <Link
+            key={item.page}
+            href={item.href}
+            className="flex h-14 w-14 items-center justify-center"
+          >
+            {item.icon}
+          </Link>
+        ))}
+      </div>
     </nav>
   );
-}
+};
+
+export default Nav;
