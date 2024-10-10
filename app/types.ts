@@ -19,3 +19,9 @@ export interface FilterBarProps {
   activeFilter: string;
   onFilterChange: (filter: string) => void;
 }
+
+export interface ProductPageProps {
+  params: {
+    id: string;
+  };
+}
